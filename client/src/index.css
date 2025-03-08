@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+body{
+    font-family: "Poppins", sans-serif;
+}
+.btn-primary{
+    @apply border-2 border-solid border-[#00693d] text-[#00693d] relative text-center font-medium rounded-md py-3 px-6 transition-all duration-300 ease-in-out bg-transparent hover:bg-[#00693d] hover:text-white cursor-pointer;
+}
+.tag{
+    @apply bg-white text-[#26272b] flex gap-1 font-semibold rounded-4xl py-3 px-6 transition-all duration-300 ease-in-out transform scale-105;
+}
+.tag-green{
+    @apply bg-[#00693d] text-white flex gap-1 font-semibold rounded-4xl py-3 px-6 transition-all duration-300 ease-in-out transform scale-105;
+}
+.categories-wrapper{
+    @apply bg-[#e8fcf1] text-[#00693d] text-center font-medium w-52 h-52 transition-all duration-300 ease-in-out;
+}
+.title-tag{
+    @apply text-[#00693d];
+}
+.title{
+    @apply text-[#00693d] hover:text-black;
+}
+.bullet-tag{
+    @apply border-2 border-solid border-[#00693d] rounded-full w-2.5 h-2.5;
+}
+.disply-2{
+    @apply  text-4xl sm:text-7xl font-semibold;
+}
+.disply-1{
+    @apply text-4xl sm:text-5xl font-semibold;
+}
+.gray{
+    @apply text-[#858585];
+}
+
+.input{
+    @apply bg-white border border-solid border-[#00693d38] max-h-14 px-4 py-5 rounded-md;
+}
+.form-btn{
+    @apply text-[#00693d] border-2 border-solid border-[#00693d] rounded-md px-3.5 py-3.5 cursor-pointer hover:bg-[#00693d] hover:text-white;
+}
+.file{
+    @apply file:mr-4 file:rounded-full file:border-0 file:bg-[#00693d] file:px-4 file:py-2.5 w-60 file:text-white cursor-pointer;
+}
+.list{
+    @apply border border-[#00693d38] px-3 py-4 max-h-14 rounded-md;
+}
+.textarea{
+    @apply bg-white border border-solid border-[#00693d38] rounded-md px-3.5 py-3.5;
+}
+
+.link{
+    @apply text-[#00693d] font-semibold hover:underline;
+}
+
+.display-3{
+    @apply text-4xl text-white font-semibold;
+}
+.bullet-tag-white{
+    @apply border-2 border-solid border-[#fff] rounded-full w-2.5 h-2.5;
+}
+.title-tag-white{
+@apply text-white;
+}
+.btn-white-primary{
+    @apply border border-solid border-[#fff] text-white relative text-center font-medium rounded-xs py-3 px-6 transition-all duration-300 ease-in-out bg-transparent hover:bg-[#009c5b] hover:text-white cursor-pointer;
+}
+.title-green{
+    @apply text-[#00693d] text-3xl md:text-4xl lg:text-5xl font-semibold;
+}
+.blog-title{
+    @apply text-2xl font-semibold mt-2 text-[#191919];
+}
+
+.footer-title{
+   @apply text-[#00693d] font-semibold mb-4;
+}
+.li{
+    @apply text-[#26272b] mb-2.5 text-base font-semibold;
+  
+}
+.footer-para{
+    @apply text-[#858585] mb-2.5 text-base font-medium w-full sm:w-[80%] mt-4;
+  
+}
+.footer-newsletter{
+    @apply border-t border-solid border-[#e1e1e1] mt-7 pt-7;
+}
+.footer-input{
+    @apply bg-[#f7f8fc] py-1 min-h-16 h-auto w-full text-[#020202] border border-solid border-black rounded-[100px] ps-6 relative ;
+}
+.copyright{
+    @apply text-[#858585] mt-6 text-base font-medium;
+}
