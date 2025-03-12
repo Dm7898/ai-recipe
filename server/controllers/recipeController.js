@@ -7,13 +7,19 @@ dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const createRecipe = async (req, res) => {
-  const { title, category, time, level, steps, servings, ingredients } =
-    req.body;
+  const {
+    title,
+    category,
+    time,
+    level,
+    steps,
+    servings,
+    ingredients,
+    featured,
+    vegetarian,
+  } = req.body;
   console.log(req.body);
-  const image = req.file
-    ? `uploads/recipe/${req.file.filename}`
-    : `uploads/recipe/image-1740820532686-114450322.jpg`;
-  console.log(image);
+
   if (
     !title ||
     !category ||
@@ -28,15 +34,18 @@ export const createRecipe = async (req, res) => {
   try {
     const recipe = await Recipe.findOne({ title });
     if (recipe) return res.status(400).json("Recipe already exists");
+    const image = req.file ? `uploads/recipe/${req.file.filename}` : null;
     const newRecipe = new Recipe({
       title,
-      image,
+      image: image || "uploads/recipe/image-1740820532686-114450322.jpg",
       category,
       time,
       level,
       steps,
       servings,
       ingredients,
+      featured,
+      vegetarian,
     });
     await newRecipe.save();
     res.json({
@@ -59,16 +68,22 @@ export const getAllRecipes = async (req, res) => {
 
 export const updateRecipe = async (req, res) => {
   const { id } = req.params;
-  const image = req.file
-    ? `uploads/recipe/${req.file.filename}`
-    : `uploads/recipe/image-1740820532686-114450322.jpg`;
 
   if (!id) return res.status(404).json("Recipe not found");
   console.log(id);
   try {
+    const existingRecipe = await Recipe.findById(id);
+    if (!existingRecipe) return res.status(404).json("Recipe not found");
+    const image = req.file
+      ? `uploads/recipe/${req.file.filename}`
+      : existingRecipe.image;
+
     const updatedRecipe = await Recipe.findByIdAndUpdate(
       id,
-      { ...req.body, image },
+      {
+        ...req.body,
+        image,
+      },
       {
         new: true,
       }
@@ -111,6 +126,7 @@ export const generateRecipe = async (req, res) => {
         - Difficulty Level (Easy, Medium, Hard)
         - Servings
         - Category (Breakfast, Lunch, Drink, Dessert)
+        - Vegterian(true or false)
         Based on: ${content}`
     );
 

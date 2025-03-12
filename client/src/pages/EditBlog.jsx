@@ -1,30 +1,33 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { BlogContext } from "../context/blogContext";
+import { useNavigate, useParams } from "react-router-dom";
+import { useBlogs } from "../hooks/useBlog";
+import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { BASE_URL } from "../api/api";
 
 const EditBlog = () => {
-  const { blogs } = useContext(BlogContext);
+  const { data: blogs, isLoading, error } = useBlogs();
   const { id } = useParams();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [values, setValues] = useState({
     title: "",
     content: "",
   });
-  const [loading, setLoading] = useState(true);
+
   const [preview, setPreview] = useState("");
 
+  const blog = blogs?.find((item) => item._id === id);
+
   useEffect(() => {
-    if (!id) return;
-    const blog = blogs.find((item) => item._id === id);
     if (blog) {
       setValues({
         title: blog.title || "",
         content: blog.content || 0,
       });
-      setPreview(blog.image ? `http://localhost:5000/${blog.image}` : null);
+      setPreview(blog.image ? `${BASE_URL}${blog.image}` : null);
     }
-    setLoading(false);
-  }, [id, blogs]);
+  }, [blog]);
 
   const [file, setFile] = useState(null);
 
@@ -36,31 +39,46 @@ const EditBlog = () => {
     setPreview(URL.createObjectURL(file));
   };
 
+  const updateBlogMutation = useMutation({
+    mutationFn: async (blogData) => {
+      await axios.put(`${BASE_URL}api/blog/${id}`, blogData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    },
+    onSuccess: () => {
+      alert("Blog updated successfully!");
+      navigate(-1);
+      queryClient.invalidateQueries(["blog"], id);
+    },
+    onError: () => {
+      console.error("error");
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isChanged =
+      values.title !== blog.title ||
+      values.content !== blog.content ||
+      file !== null;
+
+    if (!isChanged) {
+      alert("No changes are made");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("content", values.content);
 
     if (file) formData.append("image", file);
 
-    try {
-      const res = await axios.put(
-        `http://localhost:5000/api/blog/${id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log(res);
-      alert("Data updated Successfully");
-    } catch (error) {
-      console.error(error);
-    }
+    updateBlogMutation.mutate(formData);
   };
-  if (loading) return <p>Loading...</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error</p>;
+
   return (
     <form
       className="flex flex-col mx-auto gap-2 w-full lg:max-w-4xl px-6 bg-amber-100 py-4"

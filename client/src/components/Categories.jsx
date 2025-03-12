@@ -24,7 +24,7 @@ const Categories = () => {
     },
   ];
   return (
-    <section className="categories gap-3 py-10 text-center">
+    <section className="categories gap-3 pt-20 pb-16 text-center">
       <div className="container mx-auto px-2 sm:px-4">
         <div className="flex gap-1 items-center justify-center font-semibold">
           <div className="bullet-tag"></div>

@@ -14,6 +14,7 @@ const RecipeSchema = new mongoose.Schema(
     },
     category: {
       type: String,
+      enum: ["dessert", "drink", "breakfast", "lunch", "dinner"],
       required: true,
     },
     time: {
@@ -41,6 +42,11 @@ const RecipeSchema = new mongoose.Schema(
       type: String,
       default: "No history available..",
     },
+    vegetarian: {
+      type: Boolean,
+      default: false,
+    },
+    featured: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

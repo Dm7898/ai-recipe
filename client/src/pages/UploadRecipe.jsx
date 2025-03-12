@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { BASE_URL } from "../api/api";
 
 const UploadRecipe = () => {
   const [values, setValues] = useState({
@@ -10,6 +11,8 @@ const UploadRecipe = () => {
     servings: 0,
     steps: [],
     ingredients: [],
+    featured: false,
+    vegetarian: false,
   });
 
   const [preview, setPreview] = useState("");
@@ -34,10 +37,12 @@ const UploadRecipe = () => {
     formData.append("servings", values.servings);
     formData.append("steps", values.steps || []);
     formData.append("ingredients", values.ingredients || []);
+    formData.append("featured", values.featured);
+    formData.append("vegetarian", values.vegetarian);
     if (file) formData.append("image", file);
 
     try {
-      await axios.post(`http://localhost:5000/api/recipe/`, formData, {
+      await axios.post(`${BASE_URL}api/recipe/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -51,6 +56,8 @@ const UploadRecipe = () => {
         servings: 0,
         steps: [],
         ingredients: [],
+        featured: false,
+        vegetarian: false,
       });
       setAiContent("");
     } catch (error) {
@@ -65,10 +72,9 @@ const UploadRecipe = () => {
     setLoading(true);
     setAiContent("");
     try {
-      const res = await axios.post(
-        `http://localhost:5000/api/recipe/genrate-recipe`,
-        { content: values.title }
-      );
+      const res = await axios.post(`${BASE_URL}api/recipe/genrate-recipe`, {
+        content: values.title,
+      });
       console.log(res);
       setAiContent(res.data.recipe);
     } catch (error) {
@@ -151,6 +157,7 @@ const UploadRecipe = () => {
           />
         </div>
       </div>
+
       <select
         className="list"
         value={values.level}
@@ -160,6 +167,7 @@ const UploadRecipe = () => {
         <option value="medium">Medium</option>
         <option value="hard">Hard</option>
       </select>
+
       <select
         className="list"
         value={values.category}
@@ -170,6 +178,30 @@ const UploadRecipe = () => {
         <option value="drink">Drink</option>
         <option value="dessert">Dessert</option>
       </select>
+      <div className="flex gap-2">
+        <div className="flex gap-1">
+          <input
+            type="checkbox"
+            name="featured"
+            checked={values.checked}
+            onChange={(e) =>
+              setValues({ ...values, featured: e.target.checked })
+            }
+          />
+          <span>Featured</span>
+        </div>
+        <div className="flex gap-1">
+          <input
+            type="checkbox"
+            name="vegetarian"
+            checked={values.vegetarian}
+            onChange={(e) =>
+              setValues({ ...values, vegetarian: e.target.checked })
+            }
+          />
+          <span>Vegetarian</span>
+        </div>
+      </div>
       <textarea
         rows={4}
         className="textarea"
@@ -188,7 +220,6 @@ const UploadRecipe = () => {
           setValues({ ...values, ingredients: e.target.value.split(",") })
         }
       ></textarea>
-
       <button className="form-btn">Submit</button>
     </form>
   );

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import HeroImg from "/hero.jpg";
 const Hero = () => {
   return (
@@ -6,7 +7,7 @@ const Hero = () => {
       style={{ backgroundImage: "url('/leftgradient.svg')" }}
     >
       <div className="container mx-auto px-2 sm:px-4 flex flex-wrap py-20 ">
-        <div className="w-full sm:w-full md:w-1/2 lg:w-1/2">
+        <div className="w-full sm:w-full  lg:w-1/2">
           <div>
             <div className="flex gap-1 items-center font-semibold">
               <div className="bullet-tag"></div>
@@ -16,14 +17,17 @@ const Hero = () => {
               Come, let&apos;s savor the goodness of my{" "}
               <span className="title-tag">nutritious</span>
             </h1>
-            <p className="gray font-bold text-xl my-6 w-full lg:w-[90%]">
+            <p className="gray font-bold text-base my-4 w-full lg:w-[90%]">
               Discover the art of cooking nutritious and mouthwatering dishes
               with me.
             </p>
-            <button className="btn-primary my-6">All Recipes</button>
+
+            <Link className="inline-block btn-primary mt-2" to="/recipes">
+              All Recipes
+            </Link>
           </div>
         </div>
-        <div className="w-full sm:w-full md:w-1/2 lg:w-1/2">
+        <div className="w-full sm:w-full lg:w-1/2">
           <div className="relative">
             <img
               src={HeroImg}

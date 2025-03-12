@@ -8,6 +8,7 @@ import { fileURLToPath } from "url"; // Import for ES module path handling
 import recipeRoutes from "./routes/recipeRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+// import Recipe from "./models/Recipe.js";
 
 dotenv.config();
 const app = express();
@@ -29,11 +30,30 @@ const connectDB = async () => {
       useUnifiedTopology: true,
     });
     console.log("✅ MongoDB Connected");
+    // await updateRecipes();
   } catch (error) {
     console.error("❌ MongoDB Connection Error:", error.message);
     process.exit(1);
   }
 };
+
+// const updateRecipes = async () => {
+//   try {
+//     const result = await Recipe.updateMany(
+//       {},
+//       {
+//         $set: {
+//           category: "lunch",
+//           featured: false,
+//           vegetarian: false,
+//         },
+//       }
+//     );
+//     console.log(`Upddate Many Successfully count:${result.modifiedCount}`);
+//   } catch (err) {
+//     console.log(err || "Error");
+//   }
+// };
 
 // Basic route
 app.get("/", (req, res) => {

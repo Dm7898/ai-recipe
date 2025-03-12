@@ -1,25 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { BASE_URL } from "../api/api";
+import { useRecipes } from "../hooks/useRecipe";
 
 const EditRecipe = () => {
   const queryClient = useQueryClient();
   const { id } = useParams();
-
-  const fetchData = async () => {
-    const res = await axios.get(`http://localhost:5000/api/recipe/`);
-    console.log(res.data);
-    return res.data;
-  };
-  const {
-    data: recipes,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["recipes"],
-    queryFn: fetchData,
-  });
+  const { data: recipes, isLoading, error } = useRecipes();
 
   const [values, setValues] = useState({
     title: "",
@@ -28,6 +17,9 @@ const EditRecipe = () => {
     servings: 0,
     steps: [],
     ingredients: [],
+    category: "",
+    featured: false,
+    vegetarian: false,
   });
 
   const [preview, setPreview] = useState("");
@@ -48,16 +40,16 @@ const EditRecipe = () => {
           typeof recipe.ingredients === "string"
             ? JSON.parse(recipe.ingredients)
             : recipe.ingredients || [],
+        category: recipe.category || "",
+        featured: recipe.featured || false,
+        vegetarian: recipe.vegetarian || false,
       });
       if (!file) {
-        setPreview(
-          recipe.image ? `http://localhost:5000/${recipe.image}` : null
-        );
+        setPreview(recipe.image ? `${BASE_URL}${recipe.image}` : null);
       }
     }
   }, [recipe]);
 
-  //   console.log(values);
   const [file, setFile] = useState(null);
 
   const handleImg = (e) => {
@@ -70,7 +62,7 @@ const EditRecipe = () => {
 
   const updateRecipemutation = useMutation({
     mutationFn: async (recipeData) => {
-      await axios.put(`http://localhost:5000/api/recipe/${id}`, recipeData, {
+      await axios.put(`${BASE_URL}api/recipe/${id}`, recipeData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     },
@@ -78,7 +70,7 @@ const EditRecipe = () => {
       alert("Recipe Updated successfully");
       queryClient.invalidateQueries(["recipe", id]);
     },
-    onError: () => {
+    onError: (error) => {
       console.error(error);
     },
   });
@@ -93,6 +85,9 @@ const EditRecipe = () => {
       JSON.stringify(values.steps) !== JSON.stringify(recipe?.steps) ||
       JSON.stringify(values.ingredients) !==
         JSON.stringify(recipe?.ingredients) ||
+      values.category !== recipe.category ||
+      values.featured !== recipe.featured ||
+      values.vegetarian !== recipe.vegetarian ||
       file !== null;
 
     if (!isChanged) {
@@ -104,9 +99,12 @@ const EditRecipe = () => {
     formData.append("title", values.title);
     formData.append("time", values.time);
     formData.append("level", values.level);
+    formData.append("category", values.category);
     formData.append("servings", values.servings);
     formData.append("steps", values.steps || []);
     formData.append("ingredients", values.ingredients || []);
+    formData.append("featured", values.featured);
+    formData.append("vegetarian", values.vegetarian);
     if (file) {
       formData.append("image", file);
     }
@@ -171,6 +169,40 @@ const EditRecipe = () => {
           setValues({ ...values, servings: Number(e.target.value) })
         }
       />
+      <select
+        className="list"
+        value={values.category}
+        onChange={(e) => setValues({ ...values, category: e.target.value })}
+      >
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="drink">Drink</option>
+        <option value="dessert">Dessert</option>
+      </select>
+      <div className="flex gap-2">
+        <div className="flex gap-1">
+          <input
+            type="checkbox"
+            name="featured"
+            checked={values.featured}
+            onChange={(e) =>
+              setValues({ ...values, featured: e.target.checked })
+            }
+          />
+          <span>Featured</span>
+        </div>
+        <div className="flex gap-1">
+          <input
+            type="checkbox"
+            name="vegetarian"
+            checked={values.vegetarian}
+            onChange={(e) =>
+              setValues({ ...values, vegetarian: e.target.checked })
+            }
+          />
+          <span>Vegetarian</span>
+        </div>
+      </div>
       <textarea
         rows={4}
         className="textarea"

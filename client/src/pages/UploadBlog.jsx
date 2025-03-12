@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { BASE_URL } from "../api/api";
 
 const UploadBlog = () => {
   const [values, setValues] = useState({
@@ -29,15 +30,11 @@ const UploadBlog = () => {
     if (file) formData.append("image", file);
 
     try {
-      const res = await axios.post(
-        `http://localhost:5000/api/blog/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.post(`${BASE_URL}api/blog/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(res);
       alert("Data uploaded Successfully");
       setValues({
@@ -62,10 +59,9 @@ const UploadBlog = () => {
     setLoading(true);
     setAiContent("");
     try {
-      const res = await axios.post(
-        `http://localhost:5000/api/blog/genrate-blog`,
-        { content: values.title }
-      );
+      const res = await axios.post(`${BASE_URL}api/blog/genrate-blog`, {
+        content: values.title,
+      });
       console.log(res);
       setAiContent(res.data.blog);
     } catch (error) {
