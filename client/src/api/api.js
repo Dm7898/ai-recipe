@@ -3,11 +3,11 @@ import axios from "axios";
 // import { AuthContext } from "../context/authContext";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://ai-recipe-rx2z.onrender.com/api",
   withCredentials: true,
 });
 
-export const BASE_URL = "http://localhost:5000/";
+export const BASE_URL = "https://ai-recipe-rx2z.onrender.com/";
 
 export const fetchRecipes = async () => {
   const res = await api.get(`/recipe/`);

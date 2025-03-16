@@ -16,7 +16,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://ai-recipe-1.onrender.com",
     credentials: true,
   })
 );
