@@ -23,8 +23,8 @@ const ManageBlogs = () => {
     <ManageLayout>
       <section className="px-2 sm:px-4">
         <h2 className="text-2xl font-semibold my-2">Blogs</h2>
-        <Link className="btn-primary inline-block ml-auto" to="/upload-blog">
-          Add Recipe
+        <Link className="btn-primary inline-block mb-4" to="/upload-blog">
+          Add Blog
         </Link>
         {recipes.length > 0 && (
           <div className="overflow-x-auto w-full">

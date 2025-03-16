@@ -25,7 +25,7 @@ const ManageRecipes = () => {
       <section className="px-2 sm:px-4">
         <h2 className="text-2xl font-semibold my-2">Recipes</h2>
 
-        <Link className="btn-primary inline-block ml-auto" to="/upload-recipe">
+        <Link className="btn-primary inline-block mb-4" to="/upload-recipe">
           Add Recipe
         </Link>
         {recipes.length > 0 && (

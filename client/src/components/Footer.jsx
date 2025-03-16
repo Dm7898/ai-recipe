@@ -34,7 +34,7 @@ const Footer = () => {
                 <h2 className="footer-title">Navigation</h2>
                 <ul>
                   <li className="li">
-                    <Link to="/home">Home</Link>
+                    <Link to="/">Home</Link>
                   </li>
                   <li className="li">
                     <Link to="/about">About me</Link>

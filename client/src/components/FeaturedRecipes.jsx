@@ -1,6 +1,7 @@
 import Recipe from "./Recipe";
 import { useRecipes } from "../hooks/useRecipe";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const FeaturedRecipes = () => {
   const [showLatest, setShowLatest] = useState(true);
@@ -23,7 +24,9 @@ const FeaturedRecipes = () => {
           <h2 className="disply-1 my-4">
             Recipes <span className="title-tag">categories</span>
           </h2>
-          <button className="btn-primary">All Recipes</button>
+          <Link to="/recipes" className="btn-primary">
+            All Recipes
+          </Link>
         </div>
         <div>
           <div className="flex gap-3 mt-4">
