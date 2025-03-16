@@ -51,9 +51,6 @@ const Recipe = ({ recipe }) => {
         <Link className="link" to={`/recipe/${recipe._id}`}>
           View Recipe
         </Link>
-        <Link className="link ml-3" to={`/edit-recipe/${recipe._id}`}>
-          Edit
-        </Link>
       </div>
     </div>
   );
