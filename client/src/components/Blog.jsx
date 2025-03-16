@@ -26,9 +26,6 @@ const Blog = ({ blog }) => {
           <Link to={`/blog/${blog._id}`} className="link">
             Read More
           </Link>
-          <Link to={`/edit-blog/${blog._id}`} className="link">
-            Edit
-          </Link>
         </div>
       </div>
     </div>

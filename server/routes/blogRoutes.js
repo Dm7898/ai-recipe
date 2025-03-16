@@ -11,6 +11,7 @@ import {
   deleteBlog,
   genrateBlog,
 } from "../controllers/blogController.js";
+import { authroizedRoles, authToken } from "../middleware/authMiddelware.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,9 +45,30 @@ const upload = multer({ storage });
 const router = express.Router();
 
 router.get("/", getAllBlogs);
-router.post("/", upload.single("image"), createBlog);
-router.put("/:id", upload.single("image"), updateBlog);
-router.delete("/:id", deleteBlog);
-router.post("/genrate-blog", genrateBlog);
+
+router.post(
+  "/",
+  upload.single("image"),
+  authToken,
+  authroizedRoles("admin", "editor"),
+  createBlog
+);
+
+router.put(
+  "/:id",
+  upload.single("image"),
+  authToken,
+  authroizedRoles("admin", "editor"),
+  updateBlog
+);
+
+router.delete("/:id", authToken, authroizedRoles("admin"), deleteBlog);
+
+router.post(
+  "/genrate-blog",
+  authToken,
+  authroizedRoles("admin", "editor"),
+  genrateBlog
+);
 
 export default router;

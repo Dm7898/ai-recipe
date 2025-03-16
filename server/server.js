@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import path from "path";
+import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url"; // Import for ES module path handling
 
 import recipeRoutes from "./routes/recipeRoutes.js";
@@ -13,8 +14,14 @@ import userRoutes from "./routes/userRoutes.js";
 dotenv.config();
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
+app.use(cookieParser());
 
 // Convert ES module paths
 const __filename = fileURLToPath(import.meta.url);

@@ -81,8 +81,7 @@ body{
   
 }
 .footer-para{
-    @apply text-[#858585] mb-2.5 text-base font-medium w-full sm:w-[80%] mt-4;
-  
+    @apply text-[#858585] mb-2.5 text-base font-medium w-full sm:w-[80%] mt-4; 
 }
 .footer-newsletter{
     @apply border-t border-solid border-[#e1e1e1] mt-7 pt-7;

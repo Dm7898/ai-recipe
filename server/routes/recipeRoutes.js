@@ -11,6 +11,7 @@ import {
   updateRecipe,
   generateRecipe,
 } from "../controllers/recipeController.js";
+import { authroizedRoles, authToken } from "../middleware/authMiddelware.js";
 
 // Convert ES module paths
 const __filename = fileURLToPath(import.meta.url);
@@ -46,9 +47,26 @@ const router = express.Router();
 
 // Routes
 router.get("/", getAllRecipes);
-router.post("/", upload.single("image"), createRecipe);
-router.put("/:id", upload.single("image"), updateRecipe);
-router.delete("/:id", deleteRecipe);
-router.post("/genrate-recipe", generateRecipe);
+router.post(
+  "/",
+  upload.single("image"),
+  authToken,
+  authroizedRoles("admin", "editor"),
+  createRecipe
+);
+router.put(
+  "/:id",
+  upload.single("image"),
+  authToken,
+  authroizedRoles("admin", "editor"),
+  updateRecipe
+);
+router.delete("/:id", authToken, authroizedRoles("admin"), deleteRecipe);
+router.post(
+  "/genrate-recipe",
+  // authToken,
+  // authroizedRoles("admin", "editor"),
+  generateRecipe
+);
 
 export default router;

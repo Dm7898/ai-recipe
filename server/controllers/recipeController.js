@@ -98,10 +98,13 @@ export const updateRecipe = async (req, res) => {
 };
 
 export const deleteRecipe = async (req, res) => {
+  console.log(req.params);
   const { id } = req.params;
+
   if (!id) return res.status(404).json("Recipe not found");
 
   try {
+    console.log(id);
     await Recipe.findByIdAndDelete(id);
     res.status(200).json("Recipe Deleted successfully");
   } catch (error) {

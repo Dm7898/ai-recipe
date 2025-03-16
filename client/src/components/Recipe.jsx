@@ -36,14 +36,14 @@ const Recipe = ({ recipe }) => {
               <span className="capitalize">{recipe.category}</span>
             </div>
           </div>
-          <div className="flex justify-center gap-x-3 bg-[#ffffffcc] backdrop-blur-[8px] py-3.5 title-tag font-medium text-base">
+          <div className="flex absolute top-auto  bottom-0 left-0 right-0 justify-center gap-x-6 bg-[#ffffffcc] backdrop-blur-[8px] py-3.5 title-tag font-medium text-base">
             <div className="">{recipe.time}min</div>
-            <div className="">{recipe.servers} Servings</div>
-            <div className="">{recipe.level}</div>
+            <div className="">{recipe.servings} Servings</div>
+            <div className="capitalize">{recipe.level}</div>
           </div>
         </div>
       </Link>
-      <div className="bg-white p-4">
+      <div className="bg-white px-6 py-7 ">
         <h2 className="title text-xl font-semibold">{recipe.title}</h2>
         <p className="gray my-3">
           Lorem ipsum dolor sit amet consectetur adipisicing elit...
