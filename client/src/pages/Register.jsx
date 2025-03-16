@@ -29,7 +29,7 @@ const Register = () => {
       navigate("/login");
       setUser({ username: "", email: "", password: "" });
     } catch (err) {
-      toast.error("Server Error");
+      toast.error(err?.response?.data?.message);
       console.error(err);
     } finally {
       setLoading(false);
