@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { BASE_URL } from "../api/api";
@@ -23,6 +23,9 @@ const ManageBlogs = () => {
     <ManageLayout>
       <section className="px-2 sm:px-4">
         <h2 className="text-2xl font-semibold my-2">Blogs</h2>
+        <Link className="btn-primary inline-block ml-auto" to="/upload-blog">
+          Add Recipe
+        </Link>
         {recipes.length > 0 && (
           <div className="overflow-x-auto w-full">
             <table className="w-full min-w-[600px] bg-white border border-gray-200 rounded-lg shadow-md">
