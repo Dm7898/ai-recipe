@@ -25,7 +25,7 @@ const Login = () => {
       toast.success("Login Successfull");
       setUser({ email: "", password: "" });
     } catch (err) {
-      toast.error(err?.response?.data?.message);
+      toast.error(err?.response?.data || "Server error");
       console.error(err);
     }
   };
